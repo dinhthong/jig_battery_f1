@@ -1,0 +1,10 @@
+# stm32 keil c build output
+**/build
+#**/Drivers
+**/jig_battery_m3_cube
+**/Builds
+#for MDK-ARM IDE generated user files 
+*.uvgui*
+*.uvoptx
+*.lst
+*.vscode
