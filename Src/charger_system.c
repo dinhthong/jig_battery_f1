@@ -107,7 +107,7 @@ void system_state_step(void) {
 	tim3_int_count++;
 	if (tim3_int_count >= 250) {
 		tim3_int_count = 0;
-		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
+		//HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
 	}
 	
 	if (modes_current_mode() == RUNNING) {

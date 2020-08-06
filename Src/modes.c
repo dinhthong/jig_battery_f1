@@ -28,7 +28,6 @@ extern uint8_t batt_detect;
 float w_initial_battery_voltage;
 //extern float voltage_pid_integral;
 #define ACS_CALIBRATION_SIZE 500
-//static uint8_t i;
 float acs_adc_offset=2091.0f;
 extern uint16_t adcVal[3];
 static recursive_mean_t rmean_adc_acs712;

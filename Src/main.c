@@ -58,7 +58,7 @@ TIM_HandleTypeDef htim3;
 /* USER CODE BEGIN PV */
 float adc_value_1;
 float adc_value_2;
-
+float current;
 float write_DAC_1( float value)
 {
 	uint16_t address= 0x60<<1;
@@ -93,6 +93,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	if (htim->Instance==htim3.Instance) {
 			system_state_step();
+		current=((adcVal[0]/4095.0f)*3.36*2-2.53)/0.21f;
 	}
 }
 /* USER CODE END PV */
@@ -150,29 +151,27 @@ int main(void)
   MX_I2C2_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
+		  if (HAL_ADCEx_Calibration_Start(&hadc1) != HAL_OK)
+  {
+    /* Calibration Error */
+    Error_Handler();
+  }
   HAL_ADC_Start_DMA(&hadc1, (uint32_t*) &adcVal[0], 3);
 	HAL_TIM_Base_Start_IT(&htim3);
 	_dac_input = 1345;
+	adc_value_1 = write_DAC_1(2.0f);
+	adc_value_2 = write_DAC_2(2.0f);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		//count+=20;
-		//mcp4725SetVoltage(count, 0);
-		adc_value_1= write_DAC_1(0.5f);
-		adc_value_2= write_DAC_2(1.0f);
-		HAL_Delay(10000);
-		adc_value_1= write_DAC_1(1.0f);
-		adc_value_2= write_DAC_2(2.0f);
-		HAL_Delay(10000);
-		adc_value_1= write_DAC_1(1.5f);
-		adc_value_2= write_DAC_2(3.0f);
-		HAL_Delay(10000);
-    /* USER CODE END WHILE */
 
+    /* USER CODE END WHILE */
     /* USER CODE BEGIN 3 */
+		
   }
   /* USER CODE END 3 */
 }
@@ -419,11 +418,22 @@ static void MX_DMA_Init(void)
   */
 static void MX_GPIO_Init(void)
 {
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin : PB12 */
+  GPIO_InitStruct.Pin = GPIO_PIN_12;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 }
 

@@ -7,7 +7,7 @@
 
 #include "stm32f1xx_hal.h"
 
-#define V_REF 2.959f
+#define V_REF 3.36f
 
 /*
 	These values are very good to measure real voltage.
@@ -17,11 +17,14 @@
 //#define R_BUCK_UP 3257.0f
 #define R_BUCK_UP 3260.0f
 
-#define R_BATT_DOWN 1009.0f
-#define R_BATT_UP 3270.0f
+//#define R_BATT_DOWN 1009.0f
+//#define R_BATT_UP 3270.0f
+
+//#define R_BATT_DOWN 1.88.0f
+//#define R_BATT_UP 4.4f
 
 #define BUCK_OUT_SIZE 20
-#define BATT_OUT_SIZE 20
+#define BATT_OUT_SIZE 200
 #define ADS_OUT_SIZE 150
 #define ADC_CURRENT_SIZE 200
 
